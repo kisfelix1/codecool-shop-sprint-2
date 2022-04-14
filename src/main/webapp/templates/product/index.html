@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>Codecool Shop</title>
+    <script type="module" src="/static/js/controller.js" defer></script>
+    <!-- Bootstrap components -->
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <!--Latest compiled and minified Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- End of Bootstrap components -->
+
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
+</head>
+
+<body style="background: url('/static/img/background.jpg')">
+
+<nav class="navbar navbar-expand-lg navbar-danger bg-danger fixed-top">
+    <a class="navbar-brand" style="color: white">NFT Webshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <div class="row dropdown mx-3 mt-1">
+                    <span class="column px-1">
+                        <a class="btn btn-primary btn-sm" id="switchDbBtn">Switch Db</a>
+                    </span>
+                    <span class="column px-1">
+                        <button type="button" id="login" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#loginModal">Login</button>
+                    </span>
+                    <span class="column px-1">
+                        <button type="button" id="register" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#registerModal">Register</button>
+                    </span>
+                    <span class="column px-1">
+                        <span style="display: none" id="userName"><strong class="text-white">Hello <a id="userNamePlace"></a></strong></span>
+                    </span>
+                    <span class="column px-1">
+                        <button type="button" id="logout" class="btn btn-primary btn-sm" style="display: none">Logout</button>
+                    </span>
+                    <div class="column px-1">
+                        <strong class="text-white">Category: </strong>
+                        <select id="categories">
+                            <option value="0">all</option>
+                            <option th:each="category : ${categories}" th:value="${category.getId()}"
+                                    th:text="${category.getName()}"></option>
+                        </select>
+                    </div>
+                    <div class="column px-1">
+                        <strong class="text-white">Supplier: </strong>
+                        <select id="suppliers">
+                            <option value="0">all</option>
+                            <option th:each="supplier : ${suppliers}" th:value="${supplier.getId()}"
+                                    th:text="${supplier.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <span class="navbar-text">
+      <button type="button" id="cart" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cartModal">View Cart
+        </button>
+    </span>
+    </div>
+</nav>
+
+<div class="jumbotron text-center" style="background: transparent">
+    <h1 style="color: white">NFT Webshop</h1>
+</div>
+
+<div th:replace="product/cart_modal.html :: copy"></div>
+<div th:replace="product/login_modal.html :: copy"></div>
+<div th:replace="product/register_modal.html :: copy"></div>
+
+<div class="container" id="products-container">
+    <div class="row" id="products">
+        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
+            <div class="card">
+                <img class="" src="http://placehold.it/400x250/000/fff"
+                     th:attr="src=${prod.imagePath}" alt=""/>
+                <div class="card-header">
+                    <h4 class="card-title" th:text="${prod.name}">Product name</h4>
+                    <p class="card-text" th:text="${prod.description}">Product description... </p>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
+                    </div>
+                    <div class="card-text">
+                        <button th:data-btn-id="${prod.id}" class="btn btn-success cart-btn">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div th:replace="product/payment_modal.html :: copy"></div>
+
+<div th:replace="footer.html :: copy"></div>
+
+</body>
+</html>
